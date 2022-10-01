@@ -359,6 +359,10 @@ _global_script_class_icons={
 config/name="Ludum Dare 51"
 config/icon="res://icon.png"
 
+[autoload]
+
+GameDebugTools="*res://autoloads/GameDebugTools.tscn"
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
