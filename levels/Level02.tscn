@@ -1,0 +1,74 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://screens/Level.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/DissolveFX.gdshader" type="Shader" id=2]
+[ext_resource path="res://scenes/ChromaticAberrationFX.gdshader" type="Shader" id=3]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxMotionBlur/MotionBlur.gdshader" type="Shader" id=4]
+[ext_resource path="res://scenes/GrayscaleFX.gdshader" type="Shader" id=5]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/ratio = 0.0
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/ratio = 0.0
+
+[sub_resource type="ShaderMaterial" id=3]
+resource_local_to_scene = true
+shader = ExtResource( 4 )
+shader_param/angle_degrees = 0.0
+shader_param/samples = 10
+shader_param/strength = 0.0
+
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/apply = false
+shader_param/amount = 1.0
+
+[sub_resource type="OpenSimplexNoise" id=5]
+resource_local_to_scene = true
+period = 2.0
+
+[sub_resource type="NoiseTexture" id=6]
+resource_local_to_scene = true
+noise = SubResource( 5 )
+
+[sub_resource type="ShaderMaterial" id=7]
+resource_local_to_scene = true
+shader = ExtResource( 2 )
+shader_param/dissolution_level = 0.0
+shader_param/edge_width = 0.0
+shader_param/edge_color1 = Color( 0, 0, 0, 1 )
+shader_param/edge_color2 = Color( 0, 0, 0, 1 )
+shader_param/replacement_color = Color( 0, 0, 0, 1 )
+shader_param/noise = SubResource( 6 )
+
+[node name="Level" instance=ExtResource( 1 )]
+help_text = "Okay, that was something.
+Hey, what's on top of your head?
+That's the direction of the..
+ wind? ...
+north? ...
+[color=yellow]nearest time thing[/color]?"
+
+[node name="GrayscaleFX" parent="Background" index="4"]
+material = SubResource( 1 )
+
+[node name="TMForeground" parent="." index="3"]
+tile_data = PoolIntArray( 524290, 4, 0, 524303, 3, 0, 655360, -1610612731, 0, 655361, 1, 0, 655362, 1, 0, 655363, 1, 0, 655364, 1, 0, 655365, 1, 0, 655366, 1, 0, 655367, 1, 0, 655368, 1610612741, 0, 655371, -1610612731, 0, 655372, 1, 0, 655373, 1, 0, 655374, 1, 0, 655375, 1, 0, 655376, 1, 0, 655377, 1, 0, 655378, 1, 0, 655379, 1610612741, 0, 851977, 3, 0 )
+
+[node name="GrayscaleFX" parent="FX" index="0"]
+material = SubResource( 2 )
+
+[node name="SxMotionBlur" parent="FX/BackBufferCopy" index="0"]
+material = SubResource( 3 )
+
+[node name="ChromaticAberrationFX" parent="FX/BackBufferCopy/BackBufferCopy" index="0"]
+material = SubResource( 4 )
+
+[node name="DissolveFX" parent="FX/BBDissolve" index="0"]
+material = SubResource( 7 )

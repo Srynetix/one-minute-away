@@ -1,0 +1,198 @@
+[gd_scene load_steps=25 format=2]
+
+[ext_resource path="res://scenes/ChromaticAberrationFX.gdshader" type="Shader" id=1]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxMotionBlur/MotionBlur.gdshader" type="Shader" id=2]
+[ext_resource path="res://scenes/DissolveFX.gdshader" type="Shader" id=3]
+[ext_resource path="res://scenes/GrayscaleFX.gdshader" type="Shader" id=4]
+[ext_resource path="res://scenes/Clock.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxMotionBlur/SxMotionBlur.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/sxgd/nodes/fx/SxFXCamera/SxFXCamera.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/GrayscaleFX.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/ChromaticAberrationFX.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/DissolveFX.tscn" type="PackedScene" id=10]
+[ext_resource path="res://resources/TileSet.tres" type="TileSet" id=11]
+[ext_resource path="res://screens/Level.gd" type="Script" id=12]
+[ext_resource path="res://addons/sxgd/nodes/ui/SxFadingRichTextLabel/SxFadingRichTextLabel.tscn" type="PackedScene" id=13]
+[ext_resource path="res://addons/sxgd/assets/fonts/Jost-800-Heavy.ttf" type="DynamicFontData" id=14]
+
+[sub_resource type="Curve" id=11]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.240385, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.75, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.995192, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=10]
+offsets = PoolRealArray( 0, 0.223464, 0.804469, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="ShaderMaterial" id=15]
+resource_local_to_scene = true
+shader = ExtResource( 4 )
+shader_param/ratio = 0.0
+
+[sub_resource type="ShaderMaterial" id=3]
+resource_local_to_scene = true
+shader = ExtResource( 4 )
+shader_param/ratio = 0.0
+
+[sub_resource type="ShaderMaterial" id=5]
+resource_local_to_scene = true
+shader = ExtResource( 2 )
+shader_param/angle_degrees = 0.0
+shader_param/samples = 10
+shader_param/strength = 0.0
+
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = ExtResource( 1 )
+shader_param/apply = false
+shader_param/amount = 1.0
+
+[sub_resource type="OpenSimplexNoise" id=12]
+resource_local_to_scene = true
+period = 2.0
+
+[sub_resource type="NoiseTexture" id=13]
+resource_local_to_scene = true
+noise = SubResource( 12 )
+
+[sub_resource type="ShaderMaterial" id=14]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/dissolution_level = 0.0
+shader_param/edge_width = 0.0
+shader_param/edge_color1 = Color( 0, 0, 0, 1 )
+shader_param/edge_color2 = Color( 0, 0, 0, 1 )
+shader_param/replacement_color = Color( 0, 0, 0, 1 )
+shader_param/noise = SubResource( 13 )
+
+[sub_resource type="DynamicFont" id=16]
+size = 24
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 14 )
+
+[node name="Level" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -101
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="TimeParticles" type="CPUParticles2D" parent="Background"]
+position = Vector2( 640, 320 )
+amount = 32
+emission_shape = 2
+emission_rect_extents = Vector2( 640, 360 )
+direction = Vector2( 0, -1 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 50.0
+damping = 50.0
+scale_amount = 10.0
+scale_amount_curve = SubResource( 11 )
+color_ramp = SubResource( 10 )
+hue_variation = 1.0
+hue_variation_random = 1.0
+
+[node name="Clock" parent="Background" instance=ExtResource( 5 )]
+position = Vector2( 640, 320 )
+
+[node name="Overlay" type="ColorRect" parent="Background"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.498039 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="GrayscaleFX" parent="Background" instance=ExtResource( 8 )]
+visible = false
+material = SubResource( 15 )
+
+[node name="SxFXCamera" parent="." instance=ExtResource( 7 )]
+anchor_mode = 1
+zoom = Vector2( 1.25, 1.25 )
+smoothing_enabled = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="TMBackground" type="TileMap" parent="."]
+tile_set = ExtResource( 11 )
+format = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="TMForeground" type="TileMap" parent="."]
+tile_set = ExtResource( 11 )
+format = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="FX" type="CanvasLayer" parent="."]
+
+[node name="GrayscaleFX" parent="FX" instance=ExtResource( 8 )]
+material = SubResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="FX"]
+copy_mode = 2
+rect = Rect2( 0, 0, 1280, 720 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="SxMotionBlur" parent="FX/BackBufferCopy" instance=ExtResource( 6 )]
+material = SubResource( 5 )
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="FX/BackBufferCopy"]
+copy_mode = 2
+rect = Rect2( 0, 0, 1280, 720 )
+
+[node name="ChromaticAberrationFX" parent="FX/BackBufferCopy/BackBufferCopy" instance=ExtResource( 9 )]
+material = SubResource( 4 )
+enabled = false
+
+[node name="BBDissolve" type="BackBufferCopy" parent="FX"]
+visible = false
+copy_mode = 2
+rect = Rect2( 0, 0, 1280, 720 )
+
+[node name="DissolveFX" parent="FX/BBDissolve" instance=ExtResource( 10 )]
+material = SubResource( 14 )
+noise_period = 2.0
+replacement_color = Color( 0, 0, 0, 1 )
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 40
+custom_constants/margin_top = 40
+custom_constants/margin_left = 40
+custom_constants/margin_bottom = 40
+
+[node name="SxFadingRichTextLabel" parent="UI/MarginContainer" instance=ExtResource( 13 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 40.0
+margin_top = 40.0
+margin_right = 1240.0
+margin_bottom = 680.0
+custom_fonts/normal_font = SubResource( 16 )
+autoplay = true
+char_delay = 0.05
+text_alignment = 1

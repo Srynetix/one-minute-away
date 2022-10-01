@@ -8,7 +8,120 @@
 
 config_version=4
 
+_global_script_class_icons={
+"GameChromaticAberrationFX": "",
+"GameClock": "",
+"GameDissolveFX": "",
+"GameGrayscaleFX": "",
+"GameLevel": "",
+"GamePlayer": "",
+"GameRadar": "",
+"GameScreen": "",
+"GameTimeLock": "",
+"SxArray": "",
+"SxAudioMultiStreamPlayer": "",
+"SxBetterBlur": "",
+"SxBuffer": "",
+"SxClientPeer": "",
+"SxClientRPC": "",
+"SxCmdLineParser": "",
+"SxColor": "",
+"SxContainer": "",
+"SxDebugInfo": "",
+"SxDebugTools": "",
+"SxDoubleTap": "",
+"SxFAButton": "",
+"SxFAFont": "",
+"SxFALabel": "",
+"SxFXCamera": "",
+"SxFadingRichTextLabel": "",
+"SxFullScreenAcceptDialog": "",
+"SxFullScreenConfirmationDialog": "",
+"SxFullScreenDialog": "",
+"SxFullScreenFileDialog": "",
+"SxGameData": "",
+"SxGlobalAudioFxPlayer": "",
+"SxGlobalMusicPlayer": "",
+"SxInput": "",
+"SxItemList": "",
+"SxJson": "",
+"SxListenServerPeer": "",
+"SxLoadCache": "",
+"SxLog": "",
+"SxLogPanel": "",
+"SxMath": "",
+"SxMotionBlur": "",
+"SxNetwork": "",
+"SxNode": "",
+"SxNodeTracer": "",
+"SxNodeTracerSystem": "",
+"SxNodeTracerUI": "",
+"SxOS": "",
+"SxRPCService": "",
+"SxRand": "",
+"SxSceneRunner": "",
+"SxSceneTransitioner": "",
+"SxServerPeer": "",
+"SxServerRPC": "",
+"SxShader": "",
+"SxShockwave": "",
+"SxSyncBarrier": "",
+"SxSyncInput": "",
+"SxSyncPeerInput": "",
+"SxText": "",
+"SxTileMap": "",
+"SxUI": "",
+"SxVignette": "",
+"SxVirtualButton": "",
+"SxVirtualControls": "",
+"SxVirtualJoystick": ""
+}
 _global_script_classes=[ {
+"base": "ColorRect",
+"class": "GameChromaticAberrationFX",
+"language": "GDScript",
+"path": "res://scenes/ChromaticAberrationFX.gd"
+}, {
+"base": "Node2D",
+"class": "GameClock",
+"language": "GDScript",
+"path": "res://scenes/Clock.gd"
+}, {
+"base": "ColorRect",
+"class": "GameDissolveFX",
+"language": "GDScript",
+"path": "res://scenes/DissolveFX.gd"
+}, {
+"base": "ColorRect",
+"class": "GameGrayscaleFX",
+"language": "GDScript",
+"path": "res://scenes/GrayscaleFX.gd"
+}, {
+"base": "Control",
+"class": "GameLevel",
+"language": "GDScript",
+"path": "res://screens/Level.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "GamePlayer",
+"language": "GDScript",
+"path": "res://scenes/Player.gd"
+}, {
+"base": "Node2D",
+"class": "GameRadar",
+"language": "GDScript",
+"path": "res://scenes/Radar.gd"
+}, {
+"base": "Control",
+"class": "GameScreen",
+"language": "GDScript",
+"path": "res://screens/Game.gd"
+}, {
+"base": "Area2D",
+"class": "GameTimeLock",
+"language": "GDScript",
+"path": "res://scenes/TimeLock.gd"
+}, {
 "base": "Reference",
 "class": "SxArray",
 "language": "GDScript",
@@ -294,78 +407,49 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/sxgd/modules/SxVirtualControls/SxVirtualJoystick.gd"
 } ]
-_global_script_class_icons={
-"SxArray": "",
-"SxAudioMultiStreamPlayer": "",
-"SxBetterBlur": "",
-"SxBuffer": "",
-"SxClientPeer": "",
-"SxClientRPC": "",
-"SxCmdLineParser": "",
-"SxColor": "",
-"SxContainer": "",
-"SxDebugInfo": "",
-"SxDebugTools": "",
-"SxDoubleTap": "",
-"SxFAButton": "",
-"SxFAFont": "",
-"SxFALabel": "",
-"SxFXCamera": "",
-"SxFadingRichTextLabel": "",
-"SxFullScreenAcceptDialog": "",
-"SxFullScreenConfirmationDialog": "",
-"SxFullScreenDialog": "",
-"SxFullScreenFileDialog": "",
-"SxGameData": "",
-"SxGlobalAudioFxPlayer": "",
-"SxGlobalMusicPlayer": "",
-"SxInput": "",
-"SxItemList": "",
-"SxJson": "",
-"SxListenServerPeer": "",
-"SxLoadCache": "",
-"SxLog": "",
-"SxLogPanel": "",
-"SxMath": "",
-"SxMotionBlur": "",
-"SxNetwork": "",
-"SxNode": "",
-"SxNodeTracer": "",
-"SxNodeTracerSystem": "",
-"SxNodeTracerUI": "",
-"SxOS": "",
-"SxRPCService": "",
-"SxRand": "",
-"SxSceneRunner": "",
-"SxSceneTransitioner": "",
-"SxServerPeer": "",
-"SxServerRPC": "",
-"SxShader": "",
-"SxShockwave": "",
-"SxSyncBarrier": "",
-"SxSyncInput": "",
-"SxSyncPeerInput": "",
-"SxText": "",
-"SxTileMap": "",
-"SxUI": "",
-"SxVignette": "",
-"SxVirtualButton": "",
-"SxVirtualControls": "",
-"SxVirtualJoystick": ""
-}
 
 [application]
 
 config/name="Ludum Dare 51"
+run/main_scene="res://screens/Game.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
 GameDebugTools="*res://autoloads/GameDebugTools.tscn"
+GameSceneTransitioner="*res://autoloads/GameSceneTransitioner.tscn"
+
+[debug]
+
+gdscript/warnings/return_value_discarded=false
+
+[display]
+
+window/size/width=1280
+window/size/height=720
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
+
+[engine]
+
+version="3.5.1"
 
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+
+[input]
+
+jump={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":32,"unicode":0,"echo":false,"script":null)
+ ]
+}
+punch={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":90,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [physics]
 
@@ -374,6 +458,7 @@ common/enable_pause_aware_picking=true
 [rendering]
 
 quality/driver/driver_name="GLES2"
+2d/snapping/use_gpu_pixel_snap=true
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
 environment/default_environment="res://default_env.tres"
