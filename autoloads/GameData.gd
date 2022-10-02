@@ -4,6 +4,7 @@ var last_level: int = 0
 var game_finished := false
 
 func _ready() -> void:
+    _logger.set_max_log_level(SxLog.LogLevel.DEBUG)
     default_file_path = "user://ld51_save.dat"
 
     load_from_disk()

@@ -16,6 +16,7 @@ _global_script_class_icons={
 "GameGrayscaleFX": "",
 "GameLaser": "",
 "GameLevel": "",
+"GameMirror": "",
 "GameMusicBG": "",
 "GamePlayer": "",
 "GameRadar": "",
@@ -115,6 +116,11 @@ _global_script_classes=[ {
 "class": "GameLevel",
 "language": "GDScript",
 "path": "res://screens/Level.gd"
+}, {
+"base": "StaticBody2D",
+"class": "GameMirror",
+"language": "GDScript",
+"path": "res://scenes/Mirror.gd"
 }, {
 "base": "ColorRect",
 "class": "GameMusicBG",
