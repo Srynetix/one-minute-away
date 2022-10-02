@@ -26,6 +26,7 @@ var _last_effect := -1
 var _player: GamePlayer = null
 var _time_locks := {}
 var _lasers := {}
+var _mirrors := {}
 var _is_game_over := false
 var _is_camera_rotating := false
 var _wrapping_rect: Rect2
@@ -110,6 +111,23 @@ func _spawn_tiles() -> void:
                 laser.set_angle(angle)
                 tilemap.set_cellv(pos, -1)
                 _lasers[laser.get_path()] = laser
+            "mirror":
+                var mirror := GameLoadCache.instantiate_scene("Mirror") as GameMirror
+                var angle := SxTileMap.get_cell_rotation(tilemap, pos)
+                mirror.position = tilemap.map_to_world(pos) + tilemap.cell_size / 2
+                mirror.rotation = angle
+                add_child(mirror)
+                tilemap.set_cellv(pos, -1)
+                _mirrors[mirror.get_path()] = mirror
+            "mirror_inverted":
+                var mirror := GameLoadCache.instantiate_scene("Mirror") as GameMirror
+                var angle := SxTileMap.get_cell_rotation(tilemap, pos)
+                mirror.inverted = true
+                mirror.position = tilemap.map_to_world(pos) + tilemap.cell_size / 2
+                mirror.rotation = angle
+                add_child(mirror)
+                tilemap.set_cellv(pos, -1)
+                _mirrors[mirror.get_path()] = mirror
 
     assert(_player != null, "You need to have a player on your map.")
 

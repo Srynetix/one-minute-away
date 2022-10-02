@@ -6,9 +6,6 @@
 [ext_resource path="res://assets/sounds/laser.wav" type="AudioStream" id=4]
 [ext_resource path="res://assets/sounds/prelaser.wav" type="AudioStream" id=5]
 
-[sub_resource type="Curve" id=5]
-_data = [ Vector2( 0, 0.267241 ), 0.0, 0.732759, 0, 1, Vector2( 1, 1 ), 0.732759, 0.0, 1, 0 ]
-
 [sub_resource type="Animation" id=2]
 length = 0.001
 tracks/0/type = "value"
@@ -229,6 +226,72 @@ tracks/5/keys = {
 "values": [ Vector2( 2, 2 ), Vector2( 2, 2 ), Vector2( 1, 1 ) ]
 }
 
+[sub_resource type="Animation" id=5]
+resource_name = "fire_nonstop"
+length = 4.0
+loop = true
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Line2D:default_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5, 2.5, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.4, 0.5, 1, 1 ), Color( 0.0117647, 1, 0.00392157, 1 ), Color( 0.282353, 0.180392, 0.784314, 1 ), Color( 0.4, 0.5, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:active")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("FX:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 4.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("FX:volume_db")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.001, 3.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ -60.0, 0.0, 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Sprites/Core:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 2, 2 ) ]
+}
+
 [sub_resource type="Animation" id=4]
 resource_name = "wait"
 length = 2.0
@@ -255,10 +318,9 @@ __meta__ = {
 
 [node name="Line2D" type="Line2D" parent="."]
 points = PoolVector2Array( 0, 0, 200, 0 )
-width = 25.0
-width_curve = SubResource( 5 )
-joint_mode = 2
-begin_cap_mode = 1
+width = 15.0
+begin_cap_mode = 2
+end_cap_mode = 2
 __meta__ = {
 "_edit_lock_": true
 }
@@ -285,6 +347,7 @@ __meta__ = {
 anims/RESET = SubResource( 2 )
 anims/charge = SubResource( 1 )
 anims/fire = SubResource( 3 )
+anims/fire_nonstop = SubResource( 5 )
 anims/wait = SubResource( 4 )
 
 [node name="FX" type="AudioStreamPlayer2D" parent="."]

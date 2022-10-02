@@ -13,6 +13,7 @@ func load_resources() -> void:
     store_scene("Cube", "res://scenes/Cube.tscn")
     store_scene("Laser", "res://scenes/Laser.tscn")
     store_scene("Sphere", "res://scenes/Sphere.tscn")
+    store_scene("Mirror", "res://scenes/Mirror.tscn")
 
     # Levels
     var n := 1

@@ -18,7 +18,7 @@ func _ready() -> void:
             break
         n = n + 1
 
-    _logger.info("%d levels loaded." % n)
+    _logger.info("%d levels loaded." % (n - 1))
     if initial_level_idx == -1:
         _current_level_idx = GameData.last_level
     else:
@@ -31,15 +31,14 @@ func _restart_current_level() -> void:
 
 func _load_next_level() -> void:
     _current_level_idx += 1
-    GameData.save_progression(_current_level_idx)
     _load_level(_current_level_idx)
 
 func _load_level(idx: int) -> void:
     if !_level_scenes.has(idx):
-        GameData.save_progression(0)
         GameGlobalMusicPlayer.fade_out()
         GameSceneTransitioner.fade_to_cached_scene(GameLoadCache, "GameOverScreen")
     else:
+        GameData.save_progression(_current_level_idx)
         if _current_level != null:
             yield(GameSceneTransitioner.fade_out(), "completed")
             _current_level.queue_free()

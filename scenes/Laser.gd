@@ -10,7 +10,9 @@ onready var _anim_player := $AnimationPlayer as AnimationPlayer
 export var active := false
 
 var max_length := 1500.0
+var continuous := false
 var _angle := 0.0
+var _last_mirror: Node
 
 func _ready():
     _raycast.enabled = false
@@ -29,15 +31,24 @@ func set_angle(angle: float):
 
 func _update_line() -> void:
     var length := max_length
+    var is_mirror := false
     if _raycast.is_colliding():
         var pt := _raycast.get_collision_point()
         var dist = global_position.distance_to(pt)
         length = min(max_length, dist)
 
         var collider := _raycast.get_collider()
-        if collider is GamePlayer:
+        if collider.is_in_group("mirrors"):
+            collider.activate()
+            is_mirror = true
+            _last_mirror = collider
+
+        elif collider is GamePlayer:
             var player := collider as GamePlayer
             player.zap()
+
+    if !is_mirror && _last_mirror != null:
+        _stop_mirror()
 
     var target := (Vector2.RIGHT * length).rotated(_angle)
     _line.points[1] = target
@@ -47,11 +58,22 @@ func charge() -> void:
 
 func fire() -> void:
     _raycast.enabled = true
-    _anim_player.play("fire")
+    if continuous:
+        _anim_player.play("fire_nonstop")
+    else:
+        _anim_player.play("fire")
 
 func wait() -> void:
     _raycast.enabled = false
     _anim_player.play("wait")
 
 func stop() -> void:
+    active = false
+    _raycast.enabled = false
     _anim_player.play("RESET")
+    if _last_mirror != null:
+        _stop_mirror()
+
+func _stop_mirror() -> void:
+    _last_mirror.stop()
+    _last_mirror = null

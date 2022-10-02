@@ -48,7 +48,7 @@ shader_param/replacement_color = Color( 0, 0, 0, 1 )
 shader_param/noise = SubResource( 6 )
 
 [node name="Level" instance=ExtResource( 1 )]
-help_text = "You're on you own now.
+help_text = "You're on your own now.
 You should be able to figure this one out."
 
 [node name="GrayscaleFX" parent="Background" index="5"]
