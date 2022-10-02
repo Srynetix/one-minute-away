@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://scenes/ChromaticAberrationFX.gdshader" type="Shader" id=1]
 [ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxMotionBlur/MotionBlur.gdshader" type="Shader" id=2]
@@ -15,13 +15,7 @@
 [ext_resource path="res://addons/sxgd/nodes/ui/SxFadingRichTextLabel/SxFadingRichTextLabel.tscn" type="PackedScene" id=13]
 [ext_resource path="res://addons/sxgd/assets/fonts/Jost-800-Heavy.ttf" type="DynamicFontData" id=14]
 [ext_resource path="res://scenes/MusicBG.tscn" type="PackedScene" id=15]
-
-[sub_resource type="Curve" id=11]
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.240385, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.75, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.995192, 0 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="Gradient" id=10]
-offsets = PoolRealArray( 0, 0.223464, 0.804469, 1 )
-colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+[ext_resource path="res://scenes/fx/TimeParticles.tscn" type="PackedScene" id=16]
 
 [sub_resource type="ShaderMaterial" id=15]
 resource_local_to_scene = true
@@ -124,21 +118,7 @@ color = Color( 0, 0, 0, 1 )
 [node name="MusicBG" parent="Background" instance=ExtResource( 15 )]
 audio_bus_output = "Music"
 
-[node name="TimeParticles" type="CPUParticles2D" parent="Background"]
-position = Vector2( 640, 320 )
-amount = 32
-emission_shape = 2
-emission_rect_extents = Vector2( 640, 360 )
-direction = Vector2( 0, -1 )
-spread = 0.0
-gravity = Vector2( 0, 0 )
-initial_velocity = 50.0
-damping = 50.0
-scale_amount = 10.0
-scale_amount_curve = SubResource( 11 )
-color_ramp = SubResource( 10 )
-hue_variation = 1.0
-hue_variation_random = 1.0
+[node name="TimeParticles" parent="Background" instance=ExtResource( 16 )]
 
 [node name="Clock" parent="Background" instance=ExtResource( 5 )]
 position = Vector2( 640, 320 )

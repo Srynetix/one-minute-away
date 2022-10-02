@@ -9,6 +9,7 @@
 config_version=4
 
 _global_script_class_icons={
+"GameBootScreen": "",
 "GameChromaticAberrationFX": "",
 "GameClock": "",
 "GameDissolveFX": "",
@@ -20,6 +21,7 @@ _global_script_class_icons={
 "GameRadar": "",
 "GameScreen": "",
 "GameTimeLock": "",
+"GameTitleScreen": "",
 "SxArray": "",
 "SxAudioMultiStreamPlayer": "",
 "SxBetterBlur": "",
@@ -79,6 +81,11 @@ _global_script_class_icons={
 "SxVirtualJoystick": ""
 }
 _global_script_classes=[ {
+"base": "Control",
+"class": "GameBootScreen",
+"language": "GDScript",
+"path": "res://screens/Boot.gd"
+}, {
 "base": "ColorRect",
 "class": "GameChromaticAberrationFX",
 "language": "GDScript",
@@ -133,6 +140,11 @@ _global_script_classes=[ {
 "class": "GameTimeLock",
 "language": "GDScript",
 "path": "res://scenes/TimeLock.gd"
+}, {
+"base": "Control",
+"class": "GameTitleScreen",
+"language": "GDScript",
+"path": "res://screens/Title.gd"
 }, {
 "base": "Reference",
 "class": "SxArray",
@@ -423,7 +435,7 @@ _global_script_classes=[ {
 [application]
 
 config/name="Ludum Dare 51"
-run/main_scene="res://screens/Game.tscn"
+run/main_scene="res://screens/Boot.tscn"
 config/icon="res://icon.png"
 
 [autoload]

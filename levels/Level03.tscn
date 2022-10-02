@@ -49,7 +49,8 @@ shader_param/noise = SubResource( 6 )
 
 [node name="Level" instance=ExtResource( 1 )]
 help_text = "Oh great, boxes...
-Just [shake]punch[/shake] them out of here, and find a way to climb up there.
+
+ [shake]Punch[/shake] 'em out of here, and find a way to climb up.
 I heard you might have [rainbow]special wall jumping skills[/rainbow]..."
 
 [node name="GrayscaleFX" parent="Background" index="5"]

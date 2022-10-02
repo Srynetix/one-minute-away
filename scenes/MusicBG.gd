@@ -1,7 +1,7 @@
 extends ColorRect
 class_name GameMusicBG
 
-export var audio_bus_output := "Master"
+export var audio_bus_output := "Master" setget _set_bus_output
 export var vu_count := 16
 export var min_freq := 200.0
 export var max_freq := 8000.0
@@ -17,13 +17,15 @@ func freeze():
     _frozen = true
 
 func _ready() -> void:
-    var bus := AudioServer.get_bus_index(audio_bus_output)
-    spectrum = AudioServer.get_bus_effect_instance(bus, 0)
-    tracer = SxNodeTracer.new()
-    add_child(tracer)
+    _set_bus_output(audio_bus_output)
 
     for _i in range(vu_count):
         _vu_values.append(0.0)
+
+func _set_bus_output(value: String) -> void:
+    audio_bus_output = value
+    var bus := AudioServer.get_bus_index(audio_bus_output)
+    spectrum = AudioServer.get_bus_effect_instance(bus, 0)
 
 func _process(_delta: float) -> void:
     if !_frozen:

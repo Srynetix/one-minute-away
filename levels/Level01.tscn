@@ -50,11 +50,13 @@ shader_param/noise = SubResource( 6 )
 [node name="Level" instance=ExtResource( 1 )]
 help_text = "[shake]Dude[/shake], the Time is freaking out.
 You need to stop it before it's too late.
-Move your body with the [color=green]ARROW KEYS[/color].
-Jump with the [color=green]SPACEBAR[/color].
- And punch your way out with the [color=green]Z (or W)[/color] key.
+[rainbow]Every 10 seconds[/rainbow], you will be weaker, and the game will be harder.
 
-Punch these [color=yellow]yellow things[/color] like this one on the right,
+So, move your body with the [color=green]ARROW KEYS[/color],
+jump with the [color=green]SPACEBAR[/color],
+and punch your way out with the [color=green]Z (or W)[/color] key.
+
+Punch these [color=yellow]things[/color] at your right,
 or you will be [shake]locked in time... forever![/shake]."
 
 [node name="GrayscaleFX" parent="Background" index="5"]

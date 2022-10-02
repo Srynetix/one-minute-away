@@ -48,8 +48,9 @@ shader_param/replacement_color = Color( 0, 0, 0, 1 )
 shader_param/noise = SubResource( 6 )
 
 [node name="Level" instance=ExtResource( 1 )]
-help_text = "YAY [rainbow]LAZERS[/rainbow]!
-...avoid 'em."
+help_text = "Yay [rainbow]LAZERS[/rainbow]!
+
+...avoid them."
 
 [node name="GrayscaleFX" parent="Background" index="5"]
 material = SubResource( 1 )

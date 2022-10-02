@@ -1,8 +1,6 @@
 extends Control
 class_name GameScreen
 
-const LEVEL_COUNT = 4
-
 export var initial_level_idx := -1
 
 var _logger := SxLog.get_logger("Game")
@@ -13,17 +11,14 @@ var _current_level_idx := 0
 func _ready() -> void:
     var n := 1
     while true:
-        var path := "res://levels/Level%02d.tscn" % n
-        var f := File.new()
-        if f.file_exists(path):
-            var level_scene := load(path) as PackedScene
-            _level_scenes[n - 1] = level_scene
+        var name = "Level%02d" % n
+        if GameLoadCache.has_scene(name):
+            _level_scenes[n - 1] = GameLoadCache.load_scene(name)
         else:
             break
         n = n + 1
 
     _logger.info("%d levels loaded." % n)
-
     if initial_level_idx == -1:
         _current_level_idx = GameData.last_level
     else:
@@ -43,7 +38,7 @@ func _load_level(idx: int) -> void:
     if !_level_scenes.has(idx):
         GameData.save_progression(0)
         GameGlobalMusicPlayer.fade_out()
-        GameSceneTransitioner.fade_to_scene_path("res://screens/GameOver.tscn")
+        GameSceneTransitioner.fade_to_cached_scene(GameLoadCache, "GameOverScreen")
     else:
         if _current_level != null:
             yield(GameSceneTransitioner.fade_out(), "completed")

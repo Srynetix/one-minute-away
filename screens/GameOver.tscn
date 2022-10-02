@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://addons/sxgd/assets/fonts/Jost-800-Heavy.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://screens/GameOver.gd" type="Script" id=2]
@@ -9,13 +9,7 @@
 [ext_resource path="res://scenes/GrayscaleFX.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/DissolveFX.gdshader" type="Shader" id=8]
 [ext_resource path="res://scenes/DissolveFX.tscn" type="PackedScene" id=9]
-
-[sub_resource type="Curve" id=3]
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.240385, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.75, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.995192, 0 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="Gradient" id=4]
-offsets = PoolRealArray( 0, 0.223464, 0.804469, 1 )
-colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+[ext_resource path="res://scenes/fx/TimeParticles.tscn" type="PackedScene" id=10]
 
 [sub_resource type="DynamicFont" id=1]
 size = 80
@@ -64,21 +58,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
 
-[node name="TimeParticles" type="CPUParticles2D" parent="."]
-position = Vector2( 640, 320 )
-amount = 32
-emission_shape = 2
-emission_rect_extents = Vector2( 640, 360 )
-direction = Vector2( 0, -1 )
-spread = 0.0
-gravity = Vector2( 0, 0 )
-initial_velocity = 50.0
-damping = 50.0
-scale_amount = 10.0
-scale_amount_curve = SubResource( 3 )
-color_ramp = SubResource( 4 )
-hue_variation = 1.0
-hue_variation_random = 1.0
+[node name="TimeParticles" parent="." instance=ExtResource( 10 )]
 
 [node name="Clock" parent="." instance=ExtResource( 5 )]
 modulate = Color( 1, 1, 1, 0 )
@@ -108,7 +88,7 @@ The Time is no more!
 
 ...uh yes that's a great thing, why you ask?
 
-Everyone can go sleep now.
+Everyone can go to sleep now.
 
 Yes, nothing more to see here.
 
@@ -131,7 +111,7 @@ The Time is no more!
 
 ...uh yes that's a great thing, why you ask?
 
-Everyone can go sleep now.
+Everyone can go to sleep now.
 
 Yes, nothing more to see here.
 

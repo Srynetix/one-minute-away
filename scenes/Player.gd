@@ -7,6 +7,8 @@ onready var _hand := $Hand as Area2D
 onready var _hand_shape := $Hand/CollisionShape2D as CollisionShape2D
 onready var _radar := $Radar as GameRadar
 onready var _punch_fx := $PunchFX as AudioStreamPlayer
+onready var _jump_fx := $JumpFX as AudioStreamPlayer
+onready var _zap_fx := $ZapFX as AudioStreamPlayer
 onready var _initial_position := position
 
 enum State {
@@ -73,6 +75,8 @@ func _physics_process(_delta: float) -> void:
         if _current_jumps < _max_jumps:
             _acceleration += Vector2.UP * _jump_speed + (Vector2.UP * _velocity.y)
             _current_jumps += 1
+            _jump_fx.pitch_scale = rand_range(0.95, 1.05)
+            _jump_fx.play()
 
     elif _handle_input && Input.is_action_just_released("jump"):
         if _velocity.y < 0:
@@ -177,6 +181,7 @@ func zap() -> void:
     _zapped = true
     _handle_input = false
     _velocity = Vector2()
+    _zap_fx.play()
 
     var tween := get_tree().create_tween()
     tween.tween_property(self, "modulate", Color.transparent, 0.15)

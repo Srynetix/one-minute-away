@@ -6,12 +6,6 @@ signal game_over
 
 export(String, MULTILINE) var help_text := ""
 
-var TimeLockScene := preload("res://scenes/TimeLock.tscn") as PackedScene
-var PlayerScene := preload("res://scenes/Player.tscn") as PackedScene
-var CubeScene := preload("res://scenes/Cube.tscn") as PackedScene
-var LaserScene := preload("res://scenes/Laser.tscn") as PackedScene
-var SphereScene := preload("res://scenes/Sphere.tscn") as PackedScene
-
 onready var grayscale_fx := $FX/GrayscaleFX as GameGrayscaleFX
 onready var _music_bg := $Background/MusicBG as GameMusicBG
 onready var bg_grayscale_fx := $Background/GrayscaleFX as GameGrayscaleFX
@@ -83,33 +77,33 @@ func _spawn_tiles() -> void:
 
         match tile_name:
             "time_lock":
-                var time_lock := TimeLockScene.instance() as GameTimeLock
+                var time_lock := GameLoadCache.instantiate_scene("TimeLock") as GameTimeLock
                 time_lock.connect("broken", self, "_on_time_lock_broken", [time_lock])
                 time_lock.position = tilemap.map_to_world(pos) + tilemap.cell_size
                 add_child(time_lock)
                 tilemap.set_cellv(pos, -1)
                 _time_locks[time_lock.get_path()] = time_lock
             "player":
-                var player := PlayerScene.instance() as GamePlayer
+                var player := GameLoadCache.instantiate_scene("Player") as GamePlayer
                 player.position = tilemap.map_to_world(pos) + tilemap.cell_size / 2
                 add_child(player)
                 tilemap.set_cellv(pos, -1)
                 _player = player
                 _objects_to_wrap.append(player)
             "cube":
-                var cube := CubeScene.instance() as RigidBody2D
+                var cube := GameLoadCache.instantiate_scene("Cube") as RigidBody2D
                 cube.position = tilemap.map_to_world(pos) + tilemap.cell_size / 2
                 add_child(cube)
                 tilemap.set_cellv(pos, -1)
                 _objects_to_wrap.append(cube)
             "sphere":
-                var sphere := SphereScene.instance() as RigidBody2D
+                var sphere := GameLoadCache.instantiate_scene("Sphere") as RigidBody2D
                 sphere.position = tilemap.map_to_world(pos) + tilemap.cell_size / 2
                 add_child(sphere)
                 tilemap.set_cellv(pos, -1)
                 _objects_to_wrap.append(sphere)
             "laser":
-                var laser := LaserScene.instance() as GameLaser
+                var laser := GameLoadCache.instantiate_scene("Laser") as GameLaser
                 var angle := SxTileMap.get_cell_rotation(tilemap, pos)
                 laser.position = tilemap.map_to_world(pos) + tilemap.cell_size / 2
                 add_child(laser)

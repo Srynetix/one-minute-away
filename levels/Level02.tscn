@@ -48,11 +48,13 @@ shader_param/replacement_color = Color( 0, 0, 0, 1 )
 shader_param/noise = SubResource( 6 )
 
 [node name="Level" instance=ExtResource( 1 )]
-help_text = "Hey, what's on top of your head?
-That's the direction of the..
- wind? ...
-north? ...
-[color=yellow]something else[/color]? ..."
+help_text = "See this thing on top of your head?
+It shows the direction of the..
+wind? ...no
+north? ...no
+[color=yellow]something else[/color]? ...maybe
+
+...oh and mind the gap or you will fall...?"
 
 [node name="GrayscaleFX" parent="Background" index="5"]
 material = SubResource( 1 )

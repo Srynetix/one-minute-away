@@ -55,7 +55,8 @@ func _this_is_the_end() -> void:
     tween.tween_property(dissolve, "ratio", 1.0, 4.0)
     yield(tween, "finished")
 
-    GameSceneTransitioner.fade_to_scene_path("res://screens/Game.tscn")
+    GameData.save_game_finished()
+    GameSceneTransitioner.fade_to_cached_scene(GameLoadCache, "BootScreen")
 
 func _process(delta: float):
     if _done:
