@@ -434,7 +434,7 @@ _global_script_classes=[ {
 
 [application]
 
-config/name="Ludum Dare 51"
+config/name="One Minute Away"
 run/main_scene="res://screens/Boot.tscn"
 config/icon="res://icon.png"
 
