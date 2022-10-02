@@ -4,6 +4,8 @@ var last_level: int = 0
 var game_finished := false
 
 func _ready() -> void:
+    default_file_path = "user://ld51_save.dat"
+
     load_from_disk()
     last_level = load_value("last_level", 0)
     game_finished = load_value("game_finished", false)
