@@ -9,7 +9,7 @@
 
 ![screenshot](./promo/title.png)
 
-**:rocket: [Play it here!](https://srynetix.github.io/ludumdare51/)**
+**:rocket: [Play it here!](https://srynetix.github.io/one-minute-away/)**
 
 Welcome on my 5th **Ludum Dare** Compo entry!
 
