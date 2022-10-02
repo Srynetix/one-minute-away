@@ -13,3 +13,21 @@ jobs:
       platform: HTML5
       name: one-minute-away
       output_name: index.html
+  build-windows:
+    uses: Srynetix/godot-github-workflows/.github/workflows/build-game-3.5.1.yml@main
+    with:
+      platform: Windows Desktop
+      name: one-minute-away
+      output_name: One Minute Away.exe
+  build-mac:
+    uses: Srynetix/godot-github-workflows/.github/workflows/build-game-3.5.1.yml@main
+    with:
+      platform: Mac OSX
+      name: one-minute-away
+      output_name: One Minute Away.zip
+  build-linux:
+    uses: Srynetix/godot-github-workflows/.github/workflows/build-game-3.5.1.yml@main
+    with:
+      platform: Linux X11
+      name: one-minute-away
+      output_name: One Minute Away.x86_64
