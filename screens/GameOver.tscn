@@ -1,0 +1,169 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://addons/sxgd/assets/fonts/Jost-800-Heavy.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://screens/GameOver.gd" type="Script" id=2]
+[ext_resource path="res://scenes/ChromaticAberrationFX.gdshader" type="Shader" id=3]
+[ext_resource path="res://scenes/ChromaticAberrationFX.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/Clock.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/GrayscaleFX.gdshader" type="Shader" id=6]
+[ext_resource path="res://scenes/GrayscaleFX.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/DissolveFX.gdshader" type="Shader" id=8]
+[ext_resource path="res://scenes/DissolveFX.tscn" type="PackedScene" id=9]
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.240385, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.75, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.995192, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0, 0.223464, 0.804469, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="DynamicFont" id=1]
+size = 80
+outline_size = 2
+outline_color = Color( 0.313726, 0.313726, 0.313726, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/apply = true
+shader_param/amount = 0.0
+
+[sub_resource type="ShaderMaterial" id=5]
+resource_local_to_scene = true
+shader = ExtResource( 6 )
+shader_param/ratio = 0.0
+
+[sub_resource type="OpenSimplexNoise" id=14]
+resource_local_to_scene = true
+period = 2.0
+
+[sub_resource type="NoiseTexture" id=13]
+resource_local_to_scene = true
+noise = SubResource( 14 )
+
+[sub_resource type="ShaderMaterial" id=15]
+resource_local_to_scene = true
+shader = ExtResource( 8 )
+shader_param/dissolution_level = 0.0
+shader_param/edge_width = 0.0
+shader_param/edge_color1 = Color( 0, 0, 0, 1 )
+shader_param/edge_color2 = Color( 0, 0, 0, 1 )
+shader_param/replacement_color = Color( 0, 0, 0, 1 )
+shader_param/noise = SubResource( 13 )
+
+[node name="GameOver" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="TimeParticles" type="CPUParticles2D" parent="."]
+position = Vector2( 640, 320 )
+amount = 32
+emission_shape = 2
+emission_rect_extents = Vector2( 640, 360 )
+direction = Vector2( 0, -1 )
+spread = 0.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 50.0
+damping = 50.0
+scale_amount = 10.0
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
+hue_variation = 1.0
+hue_variation_random = 1.0
+
+[node name="Clock" parent="." instance=ExtResource( 5 )]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 640, 384 )
+scale = Vector2( 8, 8 )
+
+[node name="Overlay" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.498039 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label" type="RichTextLabel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 500, 0 )
+custom_fonts/normal_font = SubResource( 1 )
+bbcode_enabled = true
+bbcode_text = "[center]
+You did it!
+
+The Time has been defeated!
+
+The Time is no more!
+
+...uh yes that's a great thing, why you ask?
+
+Everyone can go sleep now.
+
+Yes, nothing more to see here.
+
+Nothing.
+
+[rainbow]Nothing![/rainbow]
+
+[wave]Nothing...![/wave]
+
+
+
+...and thanks for playing!
+[/center]"
+text = "
+You did it!
+
+The Time has been defeated!
+
+The Time is no more!
+
+...uh yes that's a great thing, why you ask?
+
+Everyone can go sleep now.
+
+Yes, nothing more to see here.
+
+Nothing.
+
+Nothing!
+
+Nothing...!
+
+
+
+...and thanks for playing!
+"
+fit_content_height = true
+
+[node name="ChromaticAberrationFX" parent="." instance=ExtResource( 4 )]
+material = SubResource( 2 )
+amount = 0.0
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+copy_mode = 2
+rect = Rect2( 0, 0, 1280, 720 )
+
+[node name="GrayscaleFX" parent="BackBufferCopy" instance=ExtResource( 7 )]
+material = SubResource( 5 )
+
+[node name="BBDissolve" type="BackBufferCopy" parent="."]
+visible = false
+copy_mode = 2
+rect = Rect2( 0, 0, 1280, 720 )
+
+[node name="DissolveFX" parent="BBDissolve" instance=ExtResource( 9 )]
+material = SubResource( 15 )
+noise_period = 2.0
+replacement_color = Color( 0, 0, 0, 1 )

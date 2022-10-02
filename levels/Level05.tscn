@@ -1,0 +1,72 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://screens/Level.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/ChromaticAberrationFX.gdshader" type="Shader" id=2]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxMotionBlur/MotionBlur.gdshader" type="Shader" id=3]
+[ext_resource path="res://scenes/GrayscaleFX.gdshader" type="Shader" id=4]
+[ext_resource path="res://scenes/DissolveFX.gdshader" type="Shader" id=5]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 4 )
+shader_param/ratio = 0.0
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = ExtResource( 4 )
+shader_param/ratio = 0.0
+
+[sub_resource type="ShaderMaterial" id=3]
+resource_local_to_scene = true
+shader = ExtResource( 3 )
+shader_param/angle_degrees = 0.0
+shader_param/samples = 10
+shader_param/strength = 0.0
+
+[sub_resource type="ShaderMaterial" id=4]
+resource_local_to_scene = true
+shader = ExtResource( 2 )
+shader_param/apply = false
+shader_param/amount = 1.0
+
+[sub_resource type="OpenSimplexNoise" id=5]
+resource_local_to_scene = true
+period = 2.0
+
+[sub_resource type="NoiseTexture" id=6]
+resource_local_to_scene = true
+noise = SubResource( 5 )
+
+[sub_resource type="ShaderMaterial" id=7]
+resource_local_to_scene = true
+shader = ExtResource( 5 )
+shader_param/dissolution_level = 0.0
+shader_param/edge_width = 0.0
+shader_param/edge_color1 = Color( 0, 0, 0, 1 )
+shader_param/edge_color2 = Color( 0, 0, 0, 1 )
+shader_param/replacement_color = Color( 0, 0, 0, 1 )
+shader_param/noise = SubResource( 6 )
+
+[node name="Level" instance=ExtResource( 1 )]
+help_text = "You're on you own now."
+
+[node name="GrayscaleFX" parent="Background" index="5"]
+material = SubResource( 1 )
+
+[node name="TMBackground" parent="." index="2"]
+tile_data = PoolIntArray( 327689, -1610612734, 0, 327690, -1610612734, 0, 327691, -1610612734, 0, 327692, -1610612734, 0, 327693, -1610612734, 0, 327694, -1610612734, 0, 327695, -1610612734, 0, 327696, -1610612734, 0, 327697, -1610612734, 0, 327698, -1610612734, 0, 327699, -1610612734, 0, 327700, -1610612734, 0, 393225, -1610612734, 0, 393226, -1610612734, 0, 393227, -1610612734, 0, 393228, -1610612734, 0, 393229, -1610612734, 0, 393230, -1610612734, 0, 393231, -1610612734, 0, 393232, -1610612734, 0, 393233, -1610612734, 0, 393234, -1610612734, 0, 393235, -1610612734, 0, 393236, -1610612734, 0, 458761, -1610612734, 0, 458762, -1610612734, 0, 458763, -1610612734, 0, 458764, -1610612734, 0, 458765, -1610612734, 0, 458766, -1610612734, 0, 458767, -1610612734, 0, 458768, -1610612734, 0, 458769, -1610612734, 0, 458770, -1610612734, 0, 458771, -1610612734, 0, 458772, -1610612734, 0, 524297, -1610612734, 0, 524298, -1610612734, 0, 524299, -1610612734, 0, 524300, -1610612734, 0, 524301, -1610612734, 0, 524302, -1610612734, 0, 524303, -1610612734, 0, 524304, -1610612734, 0, 524305, -1610612734, 0, 524306, -1610612734, 0, 524307, -1610612734, 0, 524308, -1610612734, 0, 589833, -1610612734, 0, 589834, -1610612734, 0, 589835, -1610612734, 0, 589836, -1610612734, 0, 589837, -1610612734, 0, 589838, -1610612734, 0, 589839, -1610612734, 0, 589840, -1610612734, 0, 589841, -1610612734, 0, 589842, -1610612734, 0, 589843, -1610612734, 0, 589844, -1610612734, 0, 655369, -1610612734, 0, 655370, -1610612734, 0, 655371, -1610612734, 0, 655372, -1610612734, 0, 655373, -1610612734, 0, 655374, -1610612734, 0, 655375, -1610612734, 0, 655376, -1610612734, 0, 655377, -1610612734, 0, 655378, -1610612734, 0, 655379, -1610612734, 0, 655380, -1610612734, 0, 720902, -1610612734, 0, 720905, -1610612734, 0, 720906, -1610612734, 0, 720907, -1610612734, 0, 720908, -1610612734, 0, 720909, -1610612734, 0, 720910, -1610612734, 0, 720911, -1610612734, 0, 720914, -1610612734, 0, 720915, -1610612734, 0, 720916, -1610612734, 0, 720917, -1610612734, 0, 720918, -1610612734, 0, 786438, -1610612734, 0, 786439, -1610612734, 0, 786442, -1610612734, 0, 786443, -1610612734, 0, 786444, -1610612734, 0, 786445, -1610612734, 0, 786446, -1610612734, 0, 786447, -1610612734, 0, 786450, -1610612734, 0, 786451, -1610612734, 0, 786452, -1610612734, 0, 786453, -1610612734, 0, 786454, -1610612734, 0, 786455, -1610612734, 0, 851980, -1610612734, 0, 851981, -1610612734, 0, 851982, -1610612734, 0, 851983, -1610612734, 0 )
+
+[node name="TMForeground" parent="." index="3"]
+tile_data = PoolIntArray( 262152, 1610612737, 0, 262153, 1610612737, 0, 262154, 1610612737, 0, 262155, 1610612737, 0, 262156, 1, 0, 262157, 1, 0, 262158, 1, 0, 262159, 1, 0, 262160, 1, 0, 262161, 1, 0, 262162, 1, 0, 262163, 1, 0, 262164, 1, 0, 262165, 1, 0, 327688, 1610612737, 0, 327695, 1, 0, 327696, 3, 0, 327701, 1, 0, 393224, 1610612737, 0, 393231, 1, 0, 393237, 1, 0, 458760, 1610612737, 0, 458761, 4, 0, 458767, 1, 0, 458773, 1, 0, 524296, -1610612735, 0, 524303, 1, 0, 524308, 7, 0, 524309, 1610612737, 0, 589832, -1610612735, 0, 589833, -1610612735, 0, 589839, 1, 0, 589844, 1, 0, 589845, 1610612737, 0, 655368, 5, 0, 655369, -1610612735, 0, 655370, -1610612735, 0, 655374, 1610612744, 0, 655375, 1, 0, 655376, 1, 0, 655377, 1610612741, 0, 655380, 1610612744, 0, 655381, 1610612737, 0, 720902, 3, 0, 720911, 1, 0, 720912, 1, 0, 720913, 1, 0, 786447, 5, 0, 786448, 1, 0, 786449, 1610612737, 0, 786450, 6, 0, 851974, 1610612737, 0, 851975, 1610612737, 0, 851984, 1610612737, 0, 851985, 1610612737, 0, 851986, 1610612737, 0, 851987, 1610612737, 0, 851988, 1610612737, 0, 851989, 1610612737, 0, 851990, 1610612737, 0, 851991, 1610612737, 0 )
+
+[node name="GrayscaleFX" parent="FX" index="0"]
+material = SubResource( 2 )
+
+[node name="SxMotionBlur" parent="FX/BackBufferCopy" index="0"]
+material = SubResource( 3 )
+
+[node name="ChromaticAberrationFX" parent="FX/BackBufferCopy/BackBufferCopy" index="0"]
+material = SubResource( 4 )
+
+[node name="DissolveFX" parent="FX/BBDissolve" index="0"]
+material = SubResource( 7 )

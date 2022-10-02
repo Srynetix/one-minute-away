@@ -13,7 +13,9 @@ _global_script_class_icons={
 "GameClock": "",
 "GameDissolveFX": "",
 "GameGrayscaleFX": "",
+"GameLaser": "",
 "GameLevel": "",
+"GameMusicBG": "",
 "GamePlayer": "",
 "GameRadar": "",
 "GameScreen": "",
@@ -97,10 +99,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/GrayscaleFX.gd"
 }, {
+"base": "Node2D",
+"class": "GameLaser",
+"language": "GDScript",
+"path": "res://scenes/Laser.gd"
+}, {
 "base": "Control",
 "class": "GameLevel",
 "language": "GDScript",
 "path": "res://screens/Level.gd"
+}, {
+"base": "ColorRect",
+"class": "GameMusicBG",
+"language": "GDScript",
+"path": "res://scenes/MusicBG.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "GamePlayer",
@@ -417,7 +429,10 @@ config/icon="res://icon.png"
 [autoload]
 
 GameDebugTools="*res://autoloads/GameDebugTools.tscn"
+GameLoadCache="*res://autoloads/GameLoadCache.gd"
+GameData="*res://autoloads/GameData.gd"
 GameSceneTransitioner="*res://autoloads/GameSceneTransitioner.tscn"
+GameGlobalMusicPlayer="*res://autoloads/GameGlobalMusicPlayer.tscn"
 
 [debug]
 
@@ -427,6 +442,7 @@ gdscript/warnings/return_value_discarded=false
 
 window/size/width=1280
 window/size/height=720
+window/size/resizable=false
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 

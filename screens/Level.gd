@@ -9,9 +9,11 @@ export(String, MULTILINE) var help_text := ""
 var TimeLockScene := preload("res://scenes/TimeLock.tscn") as PackedScene
 var PlayerScene := preload("res://scenes/Player.tscn") as PackedScene
 var CubeScene := preload("res://scenes/Cube.tscn") as PackedScene
+var LaserScene := preload("res://scenes/Laser.tscn") as PackedScene
 var SphereScene := preload("res://scenes/Sphere.tscn") as PackedScene
 
 onready var grayscale_fx := $FX/GrayscaleFX as GameGrayscaleFX
+onready var _music_bg := $Background/MusicBG as GameMusicBG
 onready var bg_grayscale_fx := $Background/GrayscaleFX as GameGrayscaleFX
 onready var clock := $Background/Clock as GameClock
 onready var chromatic_fx := $FX/BackBufferCopy/BackBufferCopy/ChromaticAberrationFX as GameChromaticAberrationFX
@@ -20,6 +22,7 @@ onready var motion_blur := $FX/BackBufferCopy/SxMotionBlur as SxMotionBlur
 onready var tilemap := $TMForeground as TileMap
 onready var time_particles := $Background/TimeParticles as CPUParticles2D
 onready var _help_text := $UI/MarginContainer/SxFadingRichTextLabel as SxFadingRichTextLabel
+onready var _level_lbl := $UI/MarginContainer/Level as RichTextLabel
 
 var time_limit := 10.0 * 6
 var _elapsed_time := 0.0
@@ -28,12 +31,27 @@ var _t := 0.0
 var _last_effect := -1
 var _player: GamePlayer = null
 var _time_locks := {}
+var _lasers := {}
 var _is_game_over := false
 var _is_camera_rotating := false
 var _wrapping_rect: Rect2
 var _tracer: SxNodeTracer
+var _objects_to_wrap := []
+
+enum ClockEffect {
+    Chroma = 0,
+    Shake,
+    Motion,
+    CameraRotation,
+    Combo1,
+    Combo2,
+    COUNT
+}
 
 func _ready() -> void:
+    if !GameGlobalMusicPlayer.playing:
+        GameGlobalMusicPlayer.play_stream(GameGlobalMusicPlayer.Track1)
+
     _help_text.update_text(help_text)
     _help_text.fade_in()
 
@@ -47,13 +65,16 @@ func _ready() -> void:
     clock.start_animation()
     _update_objects_with_tick_cycle()
 
+func set_level_number(num: int) -> void:
+    _level_lbl.bbcode_text = "[wave][rainbow]%02d[/rainbow][/wave]" % num
+
 func _spawn_tiles() -> void:
     var vp_rect = get_viewport_rect()
     var used_rect = tilemap.get_used_rect()
     var target_rect = vp_rect.expand(used_rect.position * tilemap.cell_size).expand(used_rect.end * tilemap.cell_size)
 
     _tracer.trace_parameter("Original rect", target_rect)
-    _wrapping_rect = target_rect.grow(500)
+    _wrapping_rect = target_rect.grow(tilemap.cell_size.x / 2)
     _tracer.trace_parameter("Grown rect", _wrapping_rect)
 
     for pos in tilemap.get_used_cells():
@@ -74,16 +95,27 @@ func _spawn_tiles() -> void:
                 add_child(player)
                 tilemap.set_cellv(pos, -1)
                 _player = player
+                _objects_to_wrap.append(player)
             "cube":
                 var cube := CubeScene.instance() as RigidBody2D
                 cube.position = tilemap.map_to_world(pos) + tilemap.cell_size / 2
                 add_child(cube)
                 tilemap.set_cellv(pos, -1)
+                _objects_to_wrap.append(cube)
             "sphere":
                 var sphere := SphereScene.instance() as RigidBody2D
                 sphere.position = tilemap.map_to_world(pos) + tilemap.cell_size / 2
                 add_child(sphere)
                 tilemap.set_cellv(pos, -1)
+                _objects_to_wrap.append(sphere)
+            "laser":
+                var laser := LaserScene.instance() as GameLaser
+                var angle := SxTileMap.get_cell_rotation(tilemap, pos)
+                laser.position = tilemap.map_to_world(pos) + tilemap.cell_size / 2
+                add_child(laser)
+                laser.set_angle(angle)
+                tilemap.set_cellv(pos, -1)
+                _lasers[laser.get_path()] = laser
 
     assert(_player != null, "You need to have a player on your map.")
 
@@ -108,18 +140,19 @@ func _process(delta: float) -> void:
     else:
         _player.get_radar().shutdown()
 
-    # Wrap player
-    var player_pos = _player.global_position
-    if player_pos.y > _wrapping_rect.end.y:
-        player_pos.y = _wrapping_rect.position.y
-    elif player_pos.y < _wrapping_rect.position.y:
-        player_pos.y = _wrapping_rect.end.y
-    if player_pos.x > _wrapping_rect.end.x:
-        player_pos.x = _wrapping_rect.position.x
-    elif player_pos.x < _wrapping_rect.position.x:
-        player_pos.x = _wrapping_rect.end.x
-    if _player.global_position != player_pos:
-        _player.global_position = player_pos
+    # Wrap objects
+    for obj in _objects_to_wrap:
+        var player_pos = obj.global_position
+        if player_pos.y > _wrapping_rect.end.y:
+            player_pos.y = _wrapping_rect.position.y
+        elif player_pos.y < _wrapping_rect.position.y:
+            player_pos.y = _wrapping_rect.end.y
+        if player_pos.x > _wrapping_rect.end.x:
+            player_pos.x = _wrapping_rect.position.x
+        elif player_pos.x < _wrapping_rect.position.x:
+            player_pos.x = _wrapping_rect.end.x
+        if obj.global_position != player_pos:
+            obj.global_position = player_pos
 
 func _on_clock_tick_cycle():
     _elapsed_time += 10.0
@@ -149,38 +182,28 @@ func _disable_effects():
 func _apply_random_effect():
     _disable_effects()
 
-    var max_effects = 6
-    # var num = 1
-    var num = SxRand.range_i(0, max_effects)
+    var num = SxRand.range_i(0, ClockEffect.COUNT)
     while num == _last_effect:
-        num = SxRand.range_i(0, max_effects)
+        num = SxRand.range_i(0, ClockEffect.COUNT)
     _last_effect = num
 
     match num:
-        0:
-            print("CHROMA")
+        ClockEffect.Chroma:
             chromatic_fx.enabled = true
-        1:
-            print("SHAKE")
+        ClockEffect.Shake:
             camera.shake_ratio = 1
-        2:
-            print("MOTION")
+        ClockEffect.Motion:
             motion_blur.angle_degrees = 0
             motion_blur.strength = 0.005
-        3:
-            print("WOOOO")
+        ClockEffect.CameraRotation:
             _is_camera_rotating = true
             camera.rotating = true
-        4:
-            print("COMBO 1")
+        ClockEffect.Combo1:
             camera.shake_ratio = 1
             chromatic_fx.enabled = true
-        5:
-            print("COMBO 2")
+        ClockEffect.Combo2:
             camera.shake_ratio = 1
             motion_blur.strength = 0.005
-        var o:
-            print("OOOPS %d" % o)
 
 func _on_time_lock_broken(lock: GameTimeLock) -> void:
     _time_locks.erase(lock.get_path())
@@ -209,12 +232,18 @@ func _game_over() -> void:
     _is_game_over = true
     clock.stop_animation()
     _player.freeze_for_eternity()
+    _music_bg.freeze()
+    GameGlobalMusicPlayer.stop()
     time_particles.emitting = false
     _disable_effects()
 
     for path in _time_locks:
         var time_lock := _time_locks[path] as GameTimeLock
         time_lock.freeze_for_eternity()
+
+    for path in _lasers:
+        var laser := _lasers[path] as GameLaser
+        laser.stop()
 
     # ...waiiiiiit
     yield(get_tree().create_timer(2), "timeout")
@@ -236,10 +265,13 @@ func _win() -> void:
     bg_grayscale_fx.visible = true
     time_particles.emitting = false
 
+    for path in _lasers:
+        var laser := _lasers[path] as GameLaser
+        laser.stop()
+
     var tween := get_tree().create_tween()
     tween.tween_property(bg_grayscale_fx, "ratio", 1.0, 1.0)
 
     # ...waiiiiiit
-    yield(get_tree().create_timer(2), "timeout")
-    yield(GameSceneTransitioner.fade_out(), "completed")
+    yield(get_tree().create_timer(1.0), "timeout")
     emit_signal("win")

@@ -7,6 +7,7 @@ onready var _hand := $Hand as Area2D
 onready var _hand_shape := $Hand/CollisionShape2D as CollisionShape2D
 onready var _radar := $Radar as GameRadar
 onready var _punch_fx := $PunchFX as AudioStreamPlayer
+onready var _initial_position := position
 
 enum State {
     Idle,
@@ -28,6 +29,7 @@ var _velocity := Vector2.ZERO
 var _friction_coef := 0.85
 var _handle_input := true
 var _state := State.Idle as int
+var _zapped := false
 
 var _tracer: SxNodeTracer
 
@@ -45,6 +47,9 @@ func get_radar() -> GameRadar:
     return _radar
 
 func _physics_process(_delta: float) -> void:
+    if _zapped:
+        return
+
     _acceleration = Vector2.ZERO
 
     var direction := Vector2.ZERO
@@ -73,6 +78,11 @@ func _physics_process(_delta: float) -> void:
         if _velocity.y < 0:
             _acceleration += Vector2.UP * _velocity.y / 2
 
+    if !is_on_floor() && _velocity.y < 0 && _state != State.Punching:
+        _change_state(State.Jumping)
+    elif _state == State.Jumping && is_on_floor() && _state != State.Punching:
+        _change_state(State.Idle)
+
     if _handle_input && _state != State.Punching && Input.is_action_just_pressed("punch"):
         _change_state(State.Punching)
 
@@ -94,7 +104,7 @@ func _physics_process(_delta: float) -> void:
     else:
         # Friction
         _acceleration += Vector2(lerp(-_velocity.x, 0, 1 - _friction_coef), 0)
-        if _state != State.Punching:
+        if !_state in [State.Punching, State.Jumping]:
             _change_state(State.Idle)
 
     # Gravity
@@ -114,7 +124,7 @@ func _update_animation() -> void:
         State.Idle:
             _animation_player.play("idle")
         State.Jumping:
-            _animation_player.stop()
+            _animation_player.play("jump")
         State.Moving:
             _animation_player.play("move")
         State.Punching:
@@ -133,12 +143,16 @@ func _change_state(state: int) -> void:
 
 func freeze_for_eternity() -> void:
     _handle_input = false
+    _velocity = Vector2.ZERO
     _gravity = Vector2.ZERO
     _friction_coef = 0
     _radar.shutdown()
 
 func freeze() -> void:
     _handle_input = false
+    _velocity = Vector2.ZERO
+    _gravity = Vector2.ZERO
+    _friction_coef = 0
 
 func _on_area_hit(area: Area2D) -> void:
     if area is GameTimeLock:
@@ -155,3 +169,24 @@ func _on_body_hit(body: PhysicsBody2D) -> void:
 func _play_punch_fx() -> void:
     _punch_fx.pitch_scale = rand_range(0.9, 1.1)
     _punch_fx.play()
+
+func zap() -> void:
+    if _zapped:
+        return
+
+    _zapped = true
+    _handle_input = false
+    _velocity = Vector2()
+
+    var tween := get_tree().create_tween()
+    tween.tween_property(self, "modulate", Color.transparent, 0.15)
+    yield(tween, "finished")
+
+    yield(get_tree().create_timer(0.5), "timeout")
+
+    var tween2 := get_tree().create_tween()
+    position = _initial_position
+    tween2.tween_property(self, "modulate", Color.white, 0.15)
+    yield(tween2, "finished")
+    _handle_input = true
+    _zapped = false

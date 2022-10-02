@@ -1,8 +1,13 @@
+tool
 extends ColorRect
 class_name GameChromaticAberrationFX
 
 export var enabled := true setget _set_enabled
 export var amount := 1.0 setget _set_amount
+
+func _ready():
+    _set_enabled(enabled)
+    _set_amount(amount)
 
 func _set_enabled(value: bool) -> void:
     enabled = value
