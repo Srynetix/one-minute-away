@@ -23,7 +23,7 @@ func _ready() -> void:
 
 func _start_game(reset: bool) -> void:
     if reset:
-        GameData.clear_all()
+        GameData.save_new_game()
 
     yield(GameGlobalMusicPlayer.fade_out(), "completed")
     GameGlobalMusicPlayer.stop()
