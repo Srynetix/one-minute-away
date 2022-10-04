@@ -10,10 +10,7 @@ config_version=4
 
 _global_script_class_icons={
 "GameBootScreen": "",
-"GameChromaticAberrationFX": "",
 "GameClock": "",
-"GameDissolveFX": "",
-"GameGrayscaleFX": "",
 "GameLaser": "",
 "GameLevel": "",
 "GameMirror": "",
@@ -39,6 +36,9 @@ _global_script_class_icons={
 "SxFAFont": "",
 "SxFALabel": "",
 "SxFXCamera": "",
+"SxFXChromaticAberration": "",
+"SxFXDissolve": "",
+"SxFXGrayscale": "",
 "SxFadingRichTextLabel": "",
 "SxFullScreenAcceptDialog": "",
 "SxFullScreenConfirmationDialog": "",
@@ -87,25 +87,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://screens/Boot.gd"
 }, {
-"base": "ColorRect",
-"class": "GameChromaticAberrationFX",
-"language": "GDScript",
-"path": "res://scenes/ChromaticAberrationFX.gd"
-}, {
 "base": "Node2D",
 "class": "GameClock",
 "language": "GDScript",
 "path": "res://scenes/Clock.gd"
-}, {
-"base": "ColorRect",
-"class": "GameDissolveFX",
-"language": "GDScript",
-"path": "res://scenes/DissolveFX.gd"
-}, {
-"base": "ColorRect",
-"class": "GameGrayscaleFX",
-"language": "GDScript",
-"path": "res://scenes/GrayscaleFX.gd"
 }, {
 "base": "Node2D",
 "class": "GameLaser",
@@ -231,6 +216,21 @@ _global_script_classes=[ {
 "class": "SxFXCamera",
 "language": "GDScript",
 "path": "res://addons/sxgd/nodes/fx/SxFXCamera/SxFXCamera.gd"
+}, {
+"base": "ColorRect",
+"class": "SxFXChromaticAberration",
+"language": "GDScript",
+"path": "res://addons/sxgd/nodes/fx/screen-effects/SxFXChromaticAberration/SxFXChromaticAberration.gd"
+}, {
+"base": "ColorRect",
+"class": "SxFXDissolve",
+"language": "GDScript",
+"path": "res://addons/sxgd/nodes/fx/screen-effects/SxFXDissolve/SxFXDissolve.gd"
+}, {
+"base": "ColorRect",
+"class": "SxFXGrayscale",
+"language": "GDScript",
+"path": "res://addons/sxgd/nodes/fx/screen-effects/SxFXGrayscale/SxFXGrayscale.gd"
 }, {
 "base": "RichTextLabel",
 "class": "SxFadingRichTextLabel",
@@ -446,10 +446,10 @@ config/icon="res://icon.png"
 
 [autoload]
 
+GameSceneTransitioner="*res://autoloads/GameSceneTransitioner.tscn"
 GameDebugTools="*res://autoloads/GameDebugTools.tscn"
 GameLoadCache="*res://autoloads/GameLoadCache.gd"
 GameData="*res://autoloads/GameData.gd"
-GameSceneTransitioner="*res://autoloads/GameSceneTransitioner.tscn"
 GameGlobalMusicPlayer="*res://autoloads/GameGlobalMusicPlayer.tscn"
 
 [debug]

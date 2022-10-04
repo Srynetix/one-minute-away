@@ -1,9 +1,9 @@
 extends Control
 
 onready var _label := $Label as RichTextLabel
-onready var _chroma_fx := $ChromaticAberrationFX as GameChromaticAberrationFX
+onready var _chroma_fx := $ChromaticAberrationFX as SxFXChromaticAberration
 onready var _clock := $Clock as GameClock
-onready var _grayscale_fx := $BackBufferCopy/GrayscaleFX as GameGrayscaleFX
+onready var _grayscale_fx := $BackBufferCopy/GrayscaleFX as SxFXGrayscale
 
 var _tracer: SxNodeTracer
 
@@ -50,7 +50,7 @@ func _this_is_the_end() -> void:
 
     var bb_dissolve := $BBDissolve as BackBufferCopy
     bb_dissolve.visible = true
-    var dissolve := $BBDissolve/DissolveFX as GameDissolveFX
+    var dissolve := $BBDissolve/DissolveFX as SxFXDissolve
     var tween := get_tree().create_tween()
     tween.tween_property(dissolve, "ratio", 1.0, 4.0)
     yield(tween, "finished")

@@ -1,10 +1,10 @@
 [gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://screens/Level.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/DissolveFX.gdshader" type="Shader" id=2]
-[ext_resource path="res://scenes/ChromaticAberrationFX.gdshader" type="Shader" id=3]
-[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxMotionBlur/MotionBlur.gdshader" type="Shader" id=4]
-[ext_resource path="res://scenes/GrayscaleFX.gdshader" type="Shader" id=5]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFXChromaticAberration/SxFXChromaticAberration.gdshader" type="Shader" id=2]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxMotionBlur/MotionBlur.gdshader" type="Shader" id=3]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFXDissolve/SxFXDissolve.gdshader" type="Shader" id=4]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFXGrayscale/SxFXGrayscale.gdshader" type="Shader" id=5]
 
 [sub_resource type="ShaderMaterial" id=1]
 resource_local_to_scene = true
@@ -18,14 +18,14 @@ shader_param/ratio = 0.0
 
 [sub_resource type="ShaderMaterial" id=3]
 resource_local_to_scene = true
-shader = ExtResource( 4 )
+shader = ExtResource( 3 )
 shader_param/angle_degrees = 0.0
 shader_param/samples = 10
 shader_param/strength = 0.0
 
 [sub_resource type="ShaderMaterial" id=4]
 resource_local_to_scene = true
-shader = ExtResource( 3 )
+shader = ExtResource( 2 )
 shader_param/apply = false
 shader_param/amount = 1.0
 
@@ -39,7 +39,7 @@ noise = SubResource( 5 )
 
 [sub_resource type="ShaderMaterial" id=7]
 resource_local_to_scene = true
-shader = ExtResource( 2 )
+shader = ExtResource( 4 )
 shader_param/dissolution_level = 0.0
 shader_param/edge_width = 0.0
 shader_param/edge_color1 = Color( 0, 0, 0, 1 )

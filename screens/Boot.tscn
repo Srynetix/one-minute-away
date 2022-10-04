@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://addons/sxgd/assets/fonts/Jost-800-Heavy.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://scenes/ChromaticAberrationFX.gdshader" type="Shader" id=2]
-[ext_resource path="res://scenes/ChromaticAberrationFX.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFXChromaticAberration/SxFXChromaticAberration.gdshader" type="Shader" id=2]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFXChromaticAberration/SxFXChromaticAberration.tscn" type="PackedScene" id=3]
 [ext_resource path="res://screens/Boot.gd" type="Script" id=4]
 
 [sub_resource type="DynamicFont" id=1]

@@ -6,11 +6,11 @@ signal game_over
 
 export(String, MULTILINE) var help_text := ""
 
-onready var grayscale_fx := $FX/GrayscaleFX as GameGrayscaleFX
+onready var grayscale_fx := $FX/GrayscaleFX as SxFXGrayscale
 onready var _music_bg := $Background/MusicBG as GameMusicBG
-onready var bg_grayscale_fx := $Background/GrayscaleFX as GameGrayscaleFX
+onready var bg_grayscale_fx := $Background/GrayscaleFX as SxFXGrayscale
 onready var clock := $Background/Clock as GameClock
-onready var chromatic_fx := $FX/BackBufferCopy/BackBufferCopy/ChromaticAberrationFX as GameChromaticAberrationFX
+onready var chromatic_fx := $FX/BackBufferCopy/BackBufferCopy/ChromaticAberrationFX as SxFXChromaticAberration
 onready var camera := $SxFXCamera as SxFXCamera
 onready var motion_blur := $FX/BackBufferCopy/SxMotionBlur as SxMotionBlur
 onready var tilemap := $TMForeground as TileMap
@@ -263,7 +263,7 @@ func _game_over() -> void:
     # ...and animate dissolution
     var bb_dissolve := $FX/BBDissolve as BackBufferCopy
     bb_dissolve.visible = true
-    var dissolve := $FX/BBDissolve/DissolveFX as GameDissolveFX
+    var dissolve := $FX/BBDissolve/DissolveFX as SxFXDissolve
     var tween := get_tree().create_tween()
     tween.tween_property(dissolve, "ratio", 1.0, 4.0)
     yield(tween, "finished")

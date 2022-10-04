@@ -7,8 +7,8 @@
 [ext_resource path="res://scenes/fx/TimeParticles.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/MusicBG.tscn" type="PackedScene" id=6]
 [ext_resource path="res://resources/TileSet.tres" type="TileSet" id=7]
-[ext_resource path="res://scenes/ChromaticAberrationFX.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scenes/ChromaticAberrationFX.gdshader" type="Shader" id=9]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFXChromaticAberration/SxFXChromaticAberration.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFXChromaticAberration/SxFXChromaticAberration.gdshader" type="Shader" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 size = 72

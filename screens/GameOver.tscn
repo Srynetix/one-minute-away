@@ -2,14 +2,16 @@
 
 [ext_resource path="res://addons/sxgd/assets/fonts/Jost-800-Heavy.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://screens/GameOver.gd" type="Script" id=2]
-[ext_resource path="res://scenes/ChromaticAberrationFX.gdshader" type="Shader" id=3]
-[ext_resource path="res://scenes/ChromaticAberrationFX.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFXChromaticAberration/SxFXChromaticAberration.gdshader" type="Shader" id=3]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFXChromaticAberration/SxFXChromaticAberration.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/Clock.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/GrayscaleFX.gdshader" type="Shader" id=6]
-[ext_resource path="res://scenes/GrayscaleFX.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scenes/DissolveFX.gdshader" type="Shader" id=8]
-[ext_resource path="res://scenes/DissolveFX.tscn" type="PackedScene" id=9]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFXGrayscale/SxFXGrayscale.gdshader" type="Shader" id=6]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFXGrayscale/SxFXGrayscale.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFXDissolve/SxFXDissolve.gdshader" type="Shader" id=8]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFXDissolve/SxFXDissolve.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/fx/TimeParticles.tscn" type="PackedScene" id=10]
+
+
 
 [sub_resource type="DynamicFont" id=1]
 size = 80
