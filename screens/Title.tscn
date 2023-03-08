@@ -2,13 +2,12 @@
 
 [ext_resource path="res://addons/sxgd/assets/fonts/Jost-800-Heavy.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://screens/Title.gd" type="Script" id=2]
-[ext_resource path="res://addons/sxgd/nodes/ui/SxFullScreenConfirmationDialog/SxFullScreenConfirmationDialog.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/sxgd/nodes/ui/SxFullScreenConfirmationDialog.gd" type="Script" id=3]
 [ext_resource path="res://scenes/Clock.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/fx/TimeParticles.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/MusicBG.tscn" type="PackedScene" id=6]
 [ext_resource path="res://resources/TileSet.tres" type="TileSet" id=7]
-[ext_resource path="res://scenes/ChromaticAberrationFX.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scenes/ChromaticAberrationFX.gdshader" type="Shader" id=9]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFxChromaticAberration/SxFxChromaticAberration.gd" type="Script" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 size = 72
@@ -29,12 +28,6 @@ size = 24
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
-
-[sub_resource type="ShaderMaterial" id=4]
-resource_local_to_scene = true
-shader = ExtResource( 9 )
-shader_param/apply = true
-shader_param/amount = 0.0
 
 [sub_resource type="Animation" id=6]
 length = 0.001
@@ -166,12 +159,14 @@ custom_fonts/font = SubResource( 3 )
 text = "Clear data"
 flat = true
 
-[node name="ClearConfirmation" parent="." instance=ExtResource( 3 )]
+[node name="ClearConfirmation" parent="." type="Panel"]
+script = ExtResource( 3 )
+show_title = false
 message = "Are you sure you want to clear your saved data?"
 
-[node name="ChromaticAberrationFX" parent="." instance=ExtResource( 8 )]
-material = SubResource( 4 )
+[node name="ChromaticAberrationFX" parent="." type="ColorRect"]
 mouse_filter = 2
+script = ExtResource( 8 )
 amount = 0.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

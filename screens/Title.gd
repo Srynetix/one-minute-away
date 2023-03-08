@@ -12,8 +12,8 @@ func _ready() -> void:
     _quit_btn.connect("pressed", self, "_quit")
 
     if GameData.game_finished:
-        GameGlobalMusicPlayer.play_stream(GameGlobalMusicPlayer.Track1)
-        GameGlobalMusicPlayer.play(64.0)
+        GameGlobalMusicPlayer.play_stream_on_voice(GameGlobalMusicPlayer.Track1, 0)
+        GameGlobalMusicPlayer.get_voice(0).play(64.0)
         $MusicBG.audio_bus_output = "Music"
         $Clock.scale = Vector2(4, 4)
         $Clock._cycle_fx.volume_db = -80
@@ -25,9 +25,9 @@ func _start_game(reset: bool) -> void:
     if reset:
         GameData.save_new_game()
 
-    yield(GameGlobalMusicPlayer.fade_out(), "completed")
-    GameGlobalMusicPlayer.stop()
-    GameGlobalMusicPlayer.fade_in()
+    yield(GameGlobalMusicPlayer.fade_out_on_voice(0), "completed")
+    GameGlobalMusicPlayer.get_voice(0).stop()
+    GameGlobalMusicPlayer.fade_in_on_voice(0)
     GameSceneTransitioner.fade_to_cached_scene(GameLoadCache, "GameScreen")
 
 func _quit() -> void:

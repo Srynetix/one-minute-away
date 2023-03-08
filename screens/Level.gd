@@ -6,13 +6,13 @@ signal game_over
 
 export(String, MULTILINE) var help_text := ""
 
-onready var grayscale_fx := $FX/GrayscaleFX as GameGrayscaleFX
+onready var grayscale_fx := $FX/GrayscaleFX as SxFxGrayscale
 onready var _music_bg := $Background/MusicBG as GameMusicBG
-onready var bg_grayscale_fx := $Background/GrayscaleFX as GameGrayscaleFX
+onready var bg_grayscale_fx := $Background/GrayscaleFX as SxFxGrayscale
 onready var clock := $Background/Clock as GameClock
-onready var chromatic_fx := $FX/BackBufferCopy/BackBufferCopy/ChromaticAberrationFX as GameChromaticAberrationFX
-onready var camera := $SxFXCamera as SxFXCamera
-onready var motion_blur := $FX/BackBufferCopy/SxMotionBlur as SxMotionBlur
+onready var chromatic_fx := $FX/BackBufferCopy/BackBufferCopy/ChromaticAberrationFX as SxFxChromaticAberration
+onready var camera := $SxFXCamera as SxFxCamera
+onready var motion_blur := $FX/BackBufferCopy/SxMotionBlur as SxFxMotionBlur
 onready var tilemap := $TMForeground as TileMap
 onready var time_particles := $Background/TimeParticles as CPUParticles2D
 onready var _help_text := $UI/MarginContainer/SxFadingRichTextLabel as SxFadingRichTextLabel
@@ -44,8 +44,8 @@ enum ClockEffect {
 }
 
 func _ready() -> void:
-    if !GameGlobalMusicPlayer.playing:
-        GameGlobalMusicPlayer.play_stream(GameGlobalMusicPlayer.Track1)
+    if !GameGlobalMusicPlayer.get_voice(0).playing:
+        GameGlobalMusicPlayer.play_stream_on_voice(GameGlobalMusicPlayer.Track1, 0)
 
     _help_text.update_text(help_text)
     _help_text.fade_in()
@@ -245,7 +245,7 @@ func _game_over() -> void:
     clock.stop_animation()
     _player.freeze_for_eternity()
     _music_bg.freeze()
-    GameGlobalMusicPlayer.stop()
+    GameGlobalMusicPlayer.get_voice(0).stop()
     time_particles.emitting = false
     _disable_effects()
 
@@ -263,7 +263,7 @@ func _game_over() -> void:
     # ...and animate dissolution
     var bb_dissolve := $FX/BBDissolve as BackBufferCopy
     bb_dissolve.visible = true
-    var dissolve := $FX/BBDissolve/DissolveFX as GameDissolveFX
+    var dissolve := $FX/BBDissolve/DissolveFX as SxFxDissolve
     var tween := get_tree().create_tween()
     tween.tween_property(dissolve, "ratio", 1.0, 4.0)
     yield(tween, "finished")
