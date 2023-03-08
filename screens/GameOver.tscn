@@ -2,13 +2,10 @@
 
 [ext_resource path="res://addons/sxgd/assets/fonts/Jost-800-Heavy.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://screens/GameOver.gd" type="Script" id=2]
-[ext_resource path="res://scenes/ChromaticAberrationFX.gdshader" type="Shader" id=3]
-[ext_resource path="res://scenes/ChromaticAberrationFX.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFxDissolve/SxFxDissolve.gd" type="Script" id=3]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFxChromaticAberration/SxFxChromaticAberration.gd" type="Script" id=4]
 [ext_resource path="res://scenes/Clock.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/GrayscaleFX.gdshader" type="Shader" id=6]
-[ext_resource path="res://scenes/GrayscaleFX.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scenes/DissolveFX.gdshader" type="Shader" id=8]
-[ext_resource path="res://scenes/DissolveFX.tscn" type="PackedScene" id=9]
+[ext_resource path="res://addons/sxgd/nodes/fx/screen-effects/SxFxGrayscale/SxFxGrayscale.gd" type="Script" id=6]
 [ext_resource path="res://scenes/fx/TimeParticles.tscn" type="PackedScene" id=10]
 
 [sub_resource type="DynamicFont" id=1]
@@ -18,35 +15,6 @@ outline_color = Color( 0.313726, 0.313726, 0.313726, 1 )
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
-
-[sub_resource type="ShaderMaterial" id=2]
-resource_local_to_scene = true
-shader = ExtResource( 3 )
-shader_param/apply = true
-shader_param/amount = 0.0
-
-[sub_resource type="ShaderMaterial" id=5]
-resource_local_to_scene = true
-shader = ExtResource( 6 )
-shader_param/ratio = 0.0
-
-[sub_resource type="OpenSimplexNoise" id=14]
-resource_local_to_scene = true
-period = 2.0
-
-[sub_resource type="NoiseTexture" id=13]
-resource_local_to_scene = true
-noise = SubResource( 14 )
-
-[sub_resource type="ShaderMaterial" id=15]
-resource_local_to_scene = true
-shader = ExtResource( 8 )
-shader_param/dissolution_level = 0.0
-shader_param/edge_width = 0.0
-shader_param/edge_color1 = Color( 0, 0, 0, 1 )
-shader_param/edge_color2 = Color( 0, 0, 0, 1 )
-shader_param/replacement_color = Color( 0, 0, 0, 1 )
-shader_param/noise = SubResource( 13 )
 
 [node name="GameOver" type="Control"]
 anchor_right = 1.0
@@ -127,23 +95,23 @@ Nothing...!
 "
 fit_content_height = true
 
-[node name="ChromaticAberrationFX" parent="." instance=ExtResource( 4 )]
-material = SubResource( 2 )
+[node name="ChromaticAberrationFX" parent="." type="ColorRect"]
+script = ExtResource( 4 )
 amount = 0.0
 
 [node name="BackBufferCopy" type="BackBufferCopy" parent="."]
 copy_mode = 2
 rect = Rect2( 0, 0, 1280, 720 )
 
-[node name="GrayscaleFX" parent="BackBufferCopy" instance=ExtResource( 7 )]
-material = SubResource( 5 )
+[node name="GrayscaleFX" parent="BackBufferCopy" type="ColorRect"]
+script = ExtResource( 6 )
 
 [node name="BBDissolve" type="BackBufferCopy" parent="."]
 visible = false
 copy_mode = 2
 rect = Rect2( 0, 0, 1280, 720 )
 
-[node name="DissolveFX" parent="BBDissolve" instance=ExtResource( 9 )]
-material = SubResource( 15 )
+[node name="DissolveFX" parent="BBDissolve" type="ColorRect"]
+script = ExtResource( 3 )
 noise_period = 2.0
 replacement_color = Color( 0, 0, 0, 1 )

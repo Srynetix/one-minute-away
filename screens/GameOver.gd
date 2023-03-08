@@ -1,9 +1,9 @@
 extends Control
 
 onready var _label := $Label as RichTextLabel
-onready var _chroma_fx := $ChromaticAberrationFX as GameChromaticAberrationFX
+onready var _chroma_fx := $ChromaticAberrationFX as SxFxChromaticAberration
 onready var _clock := $Clock as GameClock
-onready var _grayscale_fx := $BackBufferCopy/GrayscaleFX as GameGrayscaleFX
+onready var _grayscale_fx := $BackBufferCopy/GrayscaleFX as SxFxGrayscale
 
 var _tracer: SxNodeTracer
 
@@ -18,8 +18,8 @@ func _ready() -> void:
 
     _label.rect_position.y += vp_size.y
 
-    GameGlobalMusicPlayer.fade_in()
-    GameGlobalMusicPlayer.play_stream(GameGlobalMusicPlayer.Track1)
+    GameGlobalMusicPlayer.fade_in_on_voice(0)
+    GameGlobalMusicPlayer.play_stream_on_voice(GameGlobalMusicPlayer.Track1, 0)
 
     _clock.start_animation()
     _clock._tick_fx.volume_db = -60
@@ -37,20 +37,21 @@ func _this_is_the_end() -> void:
     _clock.stop_animation()
 
     var a_tween := get_tree().create_tween()
-    a_tween.tween_property(GameGlobalMusicPlayer, "pitch_scale", 0.5, 0.25)
-    a_tween.tween_property(GameGlobalMusicPlayer, "volume_db", -60, 0.5)
+    var voice = GameGlobalMusicPlayer.get_voice(0)
+    a_tween.tween_property(voice, "pitch_scale", 0.5, 0.25)
+    a_tween.tween_property(voice, "volume_db", -60.0, 0.5)
     yield(a_tween, "finished")
 
     # Reset
-    GameGlobalMusicPlayer.stop()
-    GameGlobalMusicPlayer.pitch_scale = 1.0
-    GameGlobalMusicPlayer.volume_db = 0
+    voice.stop()
+    voice.pitch_scale = 1.0
+    voice.volume_db = 0
 
     yield(get_tree().create_timer(4.0), "timeout")
 
     var bb_dissolve := $BBDissolve as BackBufferCopy
     bb_dissolve.visible = true
-    var dissolve := $BBDissolve/DissolveFX as GameDissolveFX
+    var dissolve := $BBDissolve/DissolveFX as SxFxDissolve
     var tween := get_tree().create_tween()
     tween.tween_property(dissolve, "ratio", 1.0, 4.0)
     yield(tween, "finished")

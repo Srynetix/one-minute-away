@@ -35,7 +35,7 @@ func _load_next_level() -> void:
 
 func _load_level(idx: int) -> void:
     if !_level_scenes.has(idx):
-        GameGlobalMusicPlayer.fade_out()
+        GameGlobalMusicPlayer.fade_out_on_voice(0)
         GameSceneTransitioner.fade_to_cached_scene(GameLoadCache, "GameOverScreen")
     else:
         GameData.save_progression(_current_level_idx)
